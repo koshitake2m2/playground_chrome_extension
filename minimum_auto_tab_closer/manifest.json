@@ -1,0 +1,21 @@
+{
+    "name": "minimum auto tab closer",
+    "version": "0.1",
+    "manifest_version": 3,
+    "content_scripts": [
+        {
+            "js": [
+                "content.js"
+            ],
+            "matches": [
+                "https://zoom.us/test",
+                "https://zoom.us/j/*",
+                "https://*.zoom.us/j/*",
+                "https://*.slack.com/archives/*"
+            ]
+        }
+    ],
+    "background": {
+        "service_worker": "background.js"
+    }
+}
