@@ -93,9 +93,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@next/swc-darwin-arm64@npm:13.1.6":
+"@next/swc-darwin-arm64@npm:13.1.6, @next/swc-darwin-arm64@npm:^13.1.6":
   version: 13.1.6
   resolution: "@next/swc-darwin-arm64@npm:13.1.6"
+  checksum: d5530884754b605af57f76e3a487dc107be55e5d03275a30cd7b21f9b1eb510fdf3df6db71ee8c79e77fe32fa38d31d84c417a3ebcad275e474882b672613c76
   conditions: os=darwin & cpu=arm64
   languageName: node
   linkType: hard
@@ -2549,6 +2550,7 @@ __metadata:
   resolution: "tab_manager@workspace:."
   dependencies:
     "@next/font": "npm:13.1.6"
+    "@next/swc-darwin-arm64": "npm:^13.1.6"
     "@types/node": "npm:18.13.0"
     "@types/react": "npm:18.0.28"
     "@types/react-dom": "npm:18.0.10"

@@ -4,12 +4,13 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build  && next export -o extensions/dist",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
     "@next/font": "13.1.6",
+    "@next/swc-darwin-arm64": "^13.1.6",
     "@types/node": "18.13.0",
     "@types/react": "18.0.28",
     "@types/react-dom": "18.0.10",
@@ -19,5 +20,8 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "typescript": "4.9.5"
+  },
+  "volta": {
+    "node": "16.4.0"
   }
 }

@@ -1,7 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   experimental: {
-    appDir: true,
+    workerThreads: true,
+  },
+  reactStrictMode: true,
+  trailingSlash: true,
+  images: {
+    unoptimized: true,
   },
 }
 
