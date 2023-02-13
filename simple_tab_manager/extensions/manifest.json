@@ -2,21 +2,14 @@
     "name": "simple tab manager",
     "version": "0.1",
     "manifest_version": 3,
-    "content_scripts": [
-        {
-            "js": [
-                "content.js"
-            ],
-            "matches": [
-            ]
-        }
-    ],
     "action": {
         "default_popup": "./dist/index.html"
     },
+    "options_page": "./dist/index.html",
     "permissions": [
         "bookmarks",
         "tabs",
+        "activeTab",
         "storage"
     ]
 }

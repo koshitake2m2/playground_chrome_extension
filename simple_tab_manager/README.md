@@ -10,8 +10,9 @@ First, run the development server:
 npm run build
 ```
 
-## Log
+## Setup Log
 
 ```bash
 npx create-next-app@latest
+npm i -D @types/chrome
 ```
