@@ -1,3 +1,1 @@
-setTimeout(function () {
-    chrome.runtime.sendMessage({}, function () { });
-}, 3000);
+chrome.runtime.sendMessage({}, function () { });
