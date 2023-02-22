@@ -10,9 +10,22 @@ First, run the development server:
 npm run build
 ```
 
+## Develop
+
+1. Start build:watch.
+
+```bash
+npm run build:watch
+```
+
+2. Open extension option page.
+3. Fix code and reload page.
+
 ## Setup Log
 
 ```bash
 npx create-next-app@latest
 npm i -D @types/chrome
+npm i @mui/material @mui/icons-material
+npm i -D watch
 ```
