@@ -47,4 +47,5 @@ npx create-next-app@latest
 npm i -D @types/chrome
 npm i @mui/material @mui/icons-material @emotion/react @emotion/styled
 npm i -D watch
+npm i -D @typescript-eslint/eslint-plugin @typescript-eslint/parser eslint
 ```
