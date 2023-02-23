@@ -48,4 +48,7 @@ npm i -D @types/chrome
 npm i @mui/material @mui/icons-material @emotion/react @emotion/styled
 npm i -D watch
 npm i -D @typescript-eslint/eslint-plugin @typescript-eslint/parser eslint
+npm i -D eslint-plugin-react eslint-plugin-import
+npm i -D eslint-plugin-jsx-a11y eslint-plugin-react-hooks
+npm install --save-dev prettier eslint-config-prettier eslint-plugin-prettier husky lint-staged
 ```

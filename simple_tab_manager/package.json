@@ -8,8 +8,12 @@
     "build:watch": "watch 'npm run build' ./src",
     "watch": "watch",
     "start": "next start",
-    "eslint": "eslint 'src/**/*.{ts,tsx}'",
-    "lint": "next lint"
+    "eslint": "eslint 'src/**/*.{js,jsx,ts,tsx}'",
+    "eslint:fix": "npm run eslint -- --fix",
+    "prettier": "prettier 'src/**/*.{js,jsx,ts,tsx,json}'",
+    "prettier:fix": "npm run prettier -- --write",
+    "lint": "next lint",
+    "lint:fix": "next lint --fix"
   },
   "dependencies": {
     "@emotion/react": "^11.10.6",
@@ -30,6 +34,13 @@
     "@typescript-eslint/parser": "^5.53.0",
     "eslint": "^8.34.0",
     "eslint-config-next": "13.1.6",
+    "eslint-config-prettier": "^8.6.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-jsx-a11y": "^6.7.1",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-react": "^7.32.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "prettier": "^2.8.4",
     "typescript": "4.9.5",
     "watch": "^1.0.2"
   }

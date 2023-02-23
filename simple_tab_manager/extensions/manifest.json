@@ -1,15 +1,10 @@
 {
-    "name": "simple tab manager",
-    "version": "0.1",
-    "manifest_version": 3,
-    "action": {
-        "default_popup": "./dist/index.html"
-    },
-    "options_page": "./dist/index.html",
-    "permissions": [
-        "bookmarks",
-        "tabs",
-        "activeTab",
-        "storage"
-    ]
+  "name": "simple tab manager",
+  "version": "0.1",
+  "manifest_version": 3,
+  "action": {
+    "default_popup": "./dist/index.html"
+  },
+  "options_page": "./dist/index.html",
+  "permissions": ["bookmarks", "tabs", "activeTab", "storage"]
 }

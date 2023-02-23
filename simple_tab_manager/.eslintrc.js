@@ -3,28 +3,38 @@ module.exports = {
     es6: true,
     node: true,
     jest: true,
+    webextensions: true, // NOTE: avoid `no-undef` error for chrome extension API. instead, `globals.chrome: true`
+  },
+  globals: {
+    JSX: true,
   },
   extends: [
-    "eslint:recommended",
-    "next/core-web-vitals"
+    'eslint:recommended',
+    'plugin:react/recommended',
+    'plugin:prettier/recommended',
+    'prettier',
+    'next/core-web-vitals',
   ],
-  parser: "@typescript-eslint/parser",
-  plugins: ["@typescript-eslint"],
+  parser: '@typescript-eslint/parser',
+  plugins: ['@typescript-eslint', 'react', 'react-hooks', 'jsx-a11y'],
   parserOptions: {
-    ecmaVersion: 2017,
-    sourceType: "module",
+    ecmaVersion: 2020,
+    sourceType: 'module',
+    ecmaFeatures: {
+      jsx: true,
+    },
   },
   rules: {
-    indent: ["error", 2],
-    "linebreak-style": ["error", "unix"],
-    quotes: ["error", "single"],
-    "no-console": "warn",
-    "no-unused-vars": "off",
-    "@typescript-eslint/no-unused-vars": [
-      "error",
-      { vars: "all", args: "after-used", ignoreRestSiblings: false },
+    indent: ['error', 2],
+    'linebreak-style': ['error', 'unix'],
+    quotes: ['error', 'single'],
+    'no-console': 'warn',
+    'no-unused-vars': 'off',
+    '@typescript-eslint/no-unused-vars': [
+      'error',
+      { vars: 'all', args: 'after-used', ignoreRestSiblings: false },
     ],
-    "@typescript-eslint/explicit-function-return-type": "warn", // Consider using explicit annotations for object literals and function return types even when they can be inferred.
-    "no-empty": "warn",
+    '@typescript-eslint/explicit-function-return-type': 'warn',
+    'no-empty': 'warn',
   },
 };
