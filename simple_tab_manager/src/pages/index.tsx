@@ -3,57 +3,19 @@ import styles from '@/styles/Home.module.css'
 import { ChangeEventHandler, MouseEventHandler, useEffect, useState } from 'react'
 import { Button, Input } from '@mui/material';
 import Image from 'next/image';
-
-/**
- * データ設計
- * - setting:
- * - workspaces:
- */
-
-const emptySetting: Setting = {
-  workspaces: []
-}
-
-interface Setting {
-  workspaces: Workspace[]
-}
-
-interface Workspace {
-  workspaceName: string
-  tabs: Tab[]
-}
-
-interface Tab {
-  id?: number
-  url?: string
-  faviconUrl?: string
-  title?: string
-}
-
-const workspacesKey = "workspaces"
+import { di } from '@/di/di';
+import { Tab, Workspace } from '@/domain/model';
 
 export default function Home() {
   const [isLoading, setLoading] = useState(false);
   const [tabs, setTabs] = useState<Tab[]>([]);
   const [workspaceName, setWorkspaceName] = useState<string>('');
   const [workspaces, setWorkspaces] = useState<Workspace[]>([]);
-  const [setting, setSetting] = useState<Setting>(emptySetting);
-  const storageKey = "SIMPLE_TAB_MANAGER_KEY_TEST"
 
   useEffect(() => {
     setLoading(true);
-    chrome.tabs.query({}).then((currentTabs) => {
-      const _tabs = currentTabs.map((t) => {
-        const tab: Tab = {
-          id: t.id,
-          url: t.url,
-          faviconUrl: t.favIconUrl,
-          title: t.title,
-        }
-        return tab
-      })
-      return setTabs(_tabs)
-    }).then(() => {
+    di.tabRepository.findCurrent({ pinned: false }).then((currentTabs) => {
+      setTabs(currentTabs);
       return refreshWorkspaces()
     }).then(() => setLoading(false));
   }, [])
@@ -62,63 +24,28 @@ export default function Home() {
     setWorkspaceName(target.value);
   };
 
-  const handleSubmit: MouseEventHandler<HTMLButtonElement> = (event) => {
+  const handleSubmit: MouseEventHandler<HTMLButtonElement> = async (event) => {
     event.preventDefault();
-    console.log('on submit')
 
-    Promise.all([
-      chrome.storage.local.get(workspacesKey).then((values) => (values[workspacesKey] ?? []) as Workspace[]),
-      chrome.tabs.query({}),
-    ]).then(([currentWorkspaces, currentTabs]) => {
-      const newWorkspace: Workspace = {
-        workspaceName,
-        tabs: currentTabs.map((t) => {
-          const tab: Tab = {
-            id: t.id,
-            url: t.url,
-            faviconUrl: t.favIconUrl,
-            title: t.title,
-          }
-          return tab
-        }),
-      }
-      const newWorkspaces = [...currentWorkspaces, newWorkspace]
-      let keyValue: { [key: string]: any } = {}
-      keyValue[workspacesKey] = newWorkspaces
-      console.log('submit', keyValue)
-      return chrome.storage.local.set(keyValue)
-    }).then(() => {
-      return refreshWorkspaces()
-    })
+    const currentTabs = await di.tabRepository.findCurrent({ pinned: false })
+    const newWorkspace: Workspace = {
+      workspaceName,
+      tabs: currentTabs
+    }
+
+    await di.workspaceRepository.create(newWorkspace)
+    await refreshWorkspaces()
   };
 
-  const refreshWorkspaces: () => Promise<void> = () => {
-    return chrome.storage.local.get(workspacesKey).then((values) => {
-      console.log('refresh values:', values)
-      return (values[workspacesKey] ?? []) as Workspace[]
-    }
-    ).then((workspaces) => {
-      setWorkspaces(workspaces)
-    })
+  const refreshWorkspaces: () => Promise<void> = async () => {
+    const workspaces = await di.workspaceRepository.findAll()
+    setWorkspaces(workspaces);
   }
 
-  const changeWorkspace = (workspace: Workspace) => {
-    return chrome.tabs.query({}).then((currentChromeTabs) => {
-      // 先頭要素は削除しない
-      currentChromeTabs.shift()
-      currentChromeTabs.shift()
-      return Promise
-        .all(currentChromeTabs.map((chromeTab) => {
-          return chrome.tabs.remove(chromeTab.id ?? NaN);
-        }))
-        .then(() => {
-          return Promise.all(workspace.tabs.map((tab) => {
-            return chrome.tabs.create({
-              url: tab.url ?? ''
-            })
-          }))
-        });
-    })
+  const changeWorkspace = async (workspace: Workspace) => {
+    const currentTabs = await di.tabRepository.findCurrent({ pinned: false });
+    await di.tabRepository.remove(currentTabs);
+    return await di.tabRepository.create(workspace.tabs);
   }
 
   const listTabs = (tabs: Tab[]) => tabs.map((tab) => <li key={tab.id}><Image src={tab.faviconUrl ?? ''} alt="favicon" /><a href={tab.url}>{tab.id}:{tab.title}</a></li>);
