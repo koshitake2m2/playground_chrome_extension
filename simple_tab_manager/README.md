@@ -21,11 +21,15 @@ npm run build:watch
 2. Open extension option page.
 3. Fix code and reload page.
 
+### Development Todo
+- [ ] output chrome.storage.local as json
+- [ ] awesome UI
+
 ## Setup Log
 
 ```bash
 npx create-next-app@latest
 npm i -D @types/chrome
-npm i @mui/material @mui/icons-material
+npm i @mui/material @mui/icons-material @emotion/react @emotion/styled
 npm i -D watch
 ```
