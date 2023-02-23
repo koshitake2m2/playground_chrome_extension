@@ -1,9 +1,13 @@
 chrome.runtime.sendMessage({}, function () { });
 
 /**
- * Retry closing tab
+ * Retry closing tab.
+ * 
+ * NOTE: (推測だが)service workderがなんらかの理由でunloadされているときがあり, 
+ * unloadされている時はbackground.jsが作動しない.
+ * そのため, loadされるのを待つために数回ページをリロードする.
  */
-const KEY = 'koshitake2m2_minimum_auto_tab_closer';
+const KEY = 'retry_count';
 const MAX_RETRY_COUNT = 3;
 const RETRY_DURATION_MS = 5000;
 chrome.storage.local.get(KEY).then((valuesByKey) => {

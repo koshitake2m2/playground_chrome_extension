@@ -4,11 +4,11 @@ This is a simple tab manager.
 
 This is inspired by [OneTab](https://www.one-tab.com/), and [Workona Tab Manager](https://workona.com/tab-manager/).
 
-## features
+## Features
 
 - save tabs as workspace
 
-### Next features
+### Next features (Not implemented)
 
 - [ ] fix UI
 - [ ] delete & rename workspace

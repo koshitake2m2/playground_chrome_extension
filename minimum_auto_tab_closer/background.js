@@ -1,4 +1,4 @@
-const KEY = 'koshitake2m2_minimum_auto_tab_closer';
+const KEY = 'retry_count';
 chrome.runtime.onMessage.addListener(
     function (_message, sender) {
         setTimeout(function () {
