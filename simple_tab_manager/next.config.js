@@ -9,6 +9,9 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
+  eslint: {
+    ignoreDuringBuilds: true, // skip lint for build:watch
+  },
 };
 
 module.exports = nextConfig;

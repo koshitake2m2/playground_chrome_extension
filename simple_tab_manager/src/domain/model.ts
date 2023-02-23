@@ -1,10 +1,12 @@
-export interface Setting {
-  workspaces: Workspace[];
+export interface IdGenerator {
+  generate: () => string;
 }
 
-export interface Workspace {
-  workspaceName: string;
-  tabs: Tab[];
+export class MathRandomIdGenerator implements IdGenerator {
+  constructor() {}
+  generate: () => string = () => {
+    return String(Math.random() * 10000000000000000);
+  };
 }
 
 export interface Tab {
@@ -17,4 +19,14 @@ export interface Tab {
   url?: string;
   faviconUrl?: string;
   title?: string;
+}
+
+export interface Workspace {
+  id: string;
+  name: string;
+  tabs: Tab[];
+}
+
+export interface Setting {
+  workspaces: Workspace[];
 }

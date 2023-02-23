@@ -10,7 +10,7 @@
     "start": "next start",
     "eslint": "eslint 'src/**/*.{js,jsx,ts,tsx}'",
     "eslint:fix": "npm run eslint -- --fix",
-    "prettier": "prettier 'src/**/*.{js,jsx,ts,tsx,json}'",
+    "prettier": "prettier './**/*.{js,jsx,ts,tsx,json}' --ignore-path .gitignore",
     "prettier:fix": "npm run prettier -- --write",
     "lint": "next lint",
     "lint:fix": "next lint --fix"

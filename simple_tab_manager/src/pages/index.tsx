@@ -6,23 +6,48 @@ import {
   useEffect,
   useState,
 } from 'react';
-import { Button, Input } from '@mui/material';
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Button,
+  IconButton,
+  Input,
+} from '@mui/material';
 import Image from 'next/image';
 import { di } from '@/di/di';
 import { Tab, Workspace } from '@/domain/model';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import DeleteIcon from '@mui/icons-material/Delete';
+
+const emptyWorkspace: Workspace = {
+  id: '',
+  name: '',
+  tabs: [],
+};
 
 export default function Home() {
   const [isLoading, setLoading] = useState(false);
-  const [tabs, setTabs] = useState<Tab[]>([]);
-  const [workspaceName, setWorkspaceName] = useState<string>('');
+  const [currentWorkspace, setCurrentWorkspace] =
+    useState<Workspace>(emptyWorkspace);
+  // const [workspaceName, setWorkspaceName] = useState<string>('');
   const [workspaces, setWorkspaces] = useState<Workspace[]>([]);
+
+  const refreshWorkspaces: () => Promise<void> = async () => {
+    const workspaces = await di.workspaceRepository.findAll();
+    setWorkspaces(workspaces);
+  };
 
   useEffect(() => {
     setLoading(true);
     di.tabRepository
       .findCurrent({ pinned: false })
       .then((currentTabs) => {
-        setTabs(currentTabs);
+        setCurrentWorkspace({
+          id: di.idGenerator.generate(),
+          name: '',
+          tabs: currentTabs,
+        });
         return refreshWorkspaces();
       })
       .then(() => setLoading(false));
@@ -31,25 +56,23 @@ export default function Home() {
   const handleChangeWorkspaceName: ChangeEventHandler<HTMLInputElement> = ({
     target,
   }) => {
-    setWorkspaceName(target.value);
+    setCurrentWorkspace({
+      id: currentWorkspace.id,
+      name: target.value,
+      tabs: currentWorkspace.tabs,
+    });
   };
 
   const handleSubmit: MouseEventHandler<HTMLButtonElement> = async (event) => {
     event.preventDefault();
 
-    const currentTabs = await di.tabRepository.findCurrent({ pinned: false });
-    const newWorkspace: Workspace = {
-      workspaceName,
-      tabs: currentTabs,
-    };
-
-    await di.workspaceRepository.create(newWorkspace);
+    await di.workspaceRepository.create(currentWorkspace);
+    setCurrentWorkspace({
+      id: di.idGenerator.generate(),
+      name: currentWorkspace.name,
+      tabs: currentWorkspace.tabs,
+    });
     await refreshWorkspaces();
-  };
-
-  const refreshWorkspaces: () => Promise<void> = async () => {
-    const workspaces = await di.workspaceRepository.findAll();
-    setWorkspaces(workspaces);
   };
 
   const changeWorkspace = async (workspace: Workspace) => {
@@ -58,24 +81,43 @@ export default function Home() {
     return await di.tabRepository.create(workspace.tabs);
   };
 
-  const listTabs = (tabs: Tab[]) =>
+  const removeWorkspace = async (workspace: Workspace) => {
+    await di.workspaceRepository.remove(workspace);
+    await refreshWorkspaces();
+  };
+
+  const listTabsElements = (tabs: Tab[]) =>
     tabs.map((tab) => (
       <li key={tab.id}>
-        <Image src={tab.faviconUrl ?? ''} alt='favicon' />
-        <a href={tab.url}>
-          {tab.id}:{tab.title}
-        </a>
+        <Image src={tab.faviconUrl ?? ''} alt='' width='16' height='16' />
+        <a href={tab.url}>{tab.title}</a>
       </li>
     ));
 
-  const listWorkspaces = workspaces.map((workspace) => (
-    <li key={workspace.workspaceName}>
-      <Button onClick={() => changeWorkspace(workspace)}>
-        {workspace.workspaceName}
-      </Button>
-      <ul>{listTabs(workspace.tabs)}</ul>
-    </li>
-  ));
+  const workspaceElement = (workspace: Workspace) => (
+    <>
+      <Accordion>
+        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+          <Button onClick={() => changeWorkspace(workspace)}>
+            {workspace.name}
+          </Button>
+          <IconButton
+            onClick={() => removeWorkspace(workspace)}
+            disabled={workspace.id === currentWorkspace.id}
+          >
+            <DeleteIcon />
+          </IconButton>
+        </AccordionSummary>
+        <AccordionDetails>
+          <ul>{listTabsElements(workspace.tabs)}</ul>
+        </AccordionDetails>
+      </Accordion>
+    </>
+  );
+
+  const listWorkspacesElements = workspaces.map((workspace) =>
+    workspaceElement(workspace)
+  );
 
   if (isLoading) {
     return <p>Loading...</p>;
@@ -89,7 +131,7 @@ export default function Home() {
       <form>
         <Input
           type='text'
-          value={workspaceName}
+          value={currentWorkspace.name}
           onChange={handleChangeWorkspaceName}
         ></Input>
         <Button type='submit' onClick={handleSubmit}>
@@ -98,9 +140,9 @@ export default function Home() {
       </form>
       <main className={styles.main}>
         <h2>Current Tabs</h2>
-        <ul>{listTabs(tabs)}</ul>
+        <>{workspaceElement(currentWorkspace)}</>
         <h2>Workspaces</h2>
-        <ul>{listWorkspaces}</ul>
+        <>{listWorkspacesElements}</>
       </main>
     </>
   );

@@ -11,7 +11,8 @@ This is inspired by [OneTab](https://www.one-tab.com/), and [Workona Tab Manager
 ### Next features (Not implemented)
 
 - [ ] fix UI
-- [ ] delete & rename workspace
+- [ ] rename workspace
+- [ ] confirm modal before delete workspace
 - [ ] add new tab to workspace
 - [ ] save tab groups
 - [ ] shortcuts setting
@@ -37,8 +38,9 @@ npm run build:watch
 
 ### Develop Todo
 
-- [ ] lint
 - [ ] domain service (usecase)
+- [ ] unit test
+- [ ] on memory repository for local test
 
 ### Setup Log
 

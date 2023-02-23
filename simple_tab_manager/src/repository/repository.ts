@@ -52,6 +52,7 @@ export class ChromeTabRepository implements TabRepository {
 export interface WorkspaceRepository {
   findAll: () => Promise<Workspace[]>;
   create: (workspace: Workspace) => Promise<void>;
+  remove: (workspace: Workspace) => Promise<void>;
 }
 
 export class ChromeWorkspaceRepository implements WorkspaceRepository {
@@ -66,6 +67,18 @@ export class ChromeWorkspaceRepository implements WorkspaceRepository {
   create = async (workspace: Workspace) => {
     const currentWorkspaces = await this.findAll();
     const newWorkspaces = [...currentWorkspaces, workspace];
+    let keyValue: { [key: string]: any } = {};
+    keyValue[this.workspacesKey] = newWorkspaces;
+    await chrome.storage.local.set(keyValue);
+  };
+
+  remove: (workspace: Workspace) => Promise<void> = async (
+    workspace: Workspace
+  ) => {
+    const currentWorkspaces = await this.findAll();
+    const newWorkspaces = currentWorkspaces.filter(
+      (w) => w.id !== workspace.id
+    );
     let keyValue: { [key: string]: any } = {};
     keyValue[this.workspacesKey] = newWorkspaces;
     await chrome.storage.local.set(keyValue);

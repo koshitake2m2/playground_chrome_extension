@@ -36,5 +36,14 @@ module.exports = {
     ],
     '@typescript-eslint/explicit-function-return-type': 'warn',
     'no-empty': 'warn',
+    'no-use-before-define': [
+      'error',
+      {
+        functions: true,
+        classes: false,
+        variables: true,
+        allowNamedExports: false,
+      },
+    ],
   },
 };
