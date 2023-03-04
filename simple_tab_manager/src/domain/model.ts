@@ -25,8 +25,5 @@ export interface Workspace {
   id: string;
   name: string;
   tabs: Tab[];
-}
-
-export interface Setting {
-  workspaces: Workspace[];
+  updatedAt: Date;
 }

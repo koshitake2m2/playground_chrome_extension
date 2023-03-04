@@ -24,10 +24,13 @@ const emptyWorkspace: Workspace = {
   id: '',
   name: '',
   tabs: [],
+  updatedAt: new Date(),
 };
 
 export default function Home() {
   const [isLoading, setLoading] = useState(false);
+  // FIXME: tabs.onCreated,onUpdatedでopenedをsave.
+  // FIXME: openedをクローズしたら、
   const [currentWorkspace, setCurrentWorkspace] =
     useState<Workspace>(emptyWorkspace);
   // const [workspaceName, setWorkspaceName] = useState<string>('');
@@ -47,6 +50,7 @@ export default function Home() {
           id: di.idGenerator.generate(),
           name: '',
           tabs: currentTabs,
+          updatedAt: new Date(),
         });
         return refreshWorkspaces();
       })
@@ -60,6 +64,7 @@ export default function Home() {
       id: currentWorkspace.id,
       name: target.value,
       tabs: currentWorkspace.tabs,
+      updatedAt: new Date(),
     });
   };
 
@@ -71,6 +76,7 @@ export default function Home() {
       id: di.idGenerator.generate(),
       name: currentWorkspace.name,
       tabs: currentWorkspace.tabs,
+      updatedAt: new Date(),
     });
     await refreshWorkspaces();
   };
@@ -85,6 +91,10 @@ export default function Home() {
     await di.workspaceRepository.remove(workspace);
     await refreshWorkspaces();
   };
+
+  /**
+   * JSX
+   */
 
   const listTabsElements = (tabs: Tab[]) =>
     tabs.map((tab) => (

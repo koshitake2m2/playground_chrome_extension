@@ -41,6 +41,7 @@ npm run build:watch
 - [ ] domain service (usecase)
 - [ ] unit test
 - [ ] on memory repository for local test
+- [ ] multi projects and build by one command.
 
 ### Setup Log
 

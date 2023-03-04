@@ -51,17 +51,43 @@ export class ChromeTabRepository implements TabRepository {
 
 export interface WorkspaceRepository {
   findAll: () => Promise<Workspace[]>;
+  findOpened: () => Promise<Workspace | undefined>;
   create: (workspace: Workspace) => Promise<void>;
+  saveOpened: (workspace: Workspace) => Promise<void>;
   remove: (workspace: Workspace) => Promise<void>;
 }
 
 export class ChromeWorkspaceRepository implements WorkspaceRepository {
   private workspacesKey = 'workspaces';
+  private openedWorkspaceIdKey = 'openedWorkspaceId';
 
   findAll = async () => {
     return await chrome.storage.local
       .get(this.workspacesKey)
       .then((values) => (values[this.workspacesKey] ?? []) as Workspace[]);
+  };
+
+  findOpened: () => Promise<Workspace | undefined> = async () => {
+    const openedWorkspaceId: string | undefined = await chrome.storage.local
+      .get(this.openedWorkspaceIdKey)
+      .then(
+        (values) => values[this.openedWorkspaceIdKey] as string | undefined
+      );
+    if (openedWorkspaceId === undefined) {
+      return undefined;
+    }
+
+    const openedWorkspace = (await this.findAll()).find(
+      (w) => w.id === openedWorkspaceId
+    );
+    if (openedWorkspace === undefined) {
+      await this.saveOpened(undefined);
+      console.log(
+        'Integrity Error: openedWorkspaceId exists, but workspace does not exist'
+      );
+    } else {
+      return openedWorkspace;
+    }
   };
 
   create = async (workspace: Workspace) => {
@@ -71,6 +97,13 @@ export class ChromeWorkspaceRepository implements WorkspaceRepository {
     keyValue[this.workspacesKey] = newWorkspaces;
     await chrome.storage.local.set(keyValue);
   };
+
+  saveOpened: (openedWorkspace: Workspace | undefined) => Promise<void> =
+    async (openedWorkspace: Workspace | undefined) => {
+      let keyValue: { [key: string]: any } = {};
+      keyValue[this.openedWorkspaceIdKey] = openedWorkspace?.id;
+      await chrome.storage.local.set(keyValue);
+    };
 
   remove: (workspace: Workspace) => Promise<void> = async (
     workspace: Workspace
