@@ -6,6 +6,7 @@ describe("isMatched", () => {
       `https://a.zoom.us/j/XXXX#success`,
       `https://zoom.us/j/XXXX#success`,
       `https://a.slack.com/archives/XXXX/XXXX`,
+      `https://www.notion.so/native/XXXX`,
     ];
     urls.forEach((url) => {
       expect(isMatched(url)).toEqual(true);
@@ -17,6 +18,7 @@ describe("isMatched", () => {
       `https://www.google.com`,
       `https://zoom.us/`,
       `https://slack.com/`,
+      `https://www.notion.so/XXXX`,
     ];
     urls.forEach((url) => {
       expect(isMatched(url)).toEqual(false);
