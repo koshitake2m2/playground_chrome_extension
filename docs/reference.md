@@ -1,1 +1,3 @@
 - [拡張機能 - Chrome デベロッパー](https://developer.chrome.com/docs/extensions/)
+- [GitHub - avivharuzi/chrome-extension-starter: Chrome Extension starter using Nx workspace and Angular](https://github.com/avivharuzi/chrome-extension-starter)
+- [私がNxを推す理由 - Qiita](https://qiita.com/aiji42/items/ecfdbb20d02aa5b1daef)
