@@ -1,0 +1,12 @@
+lockfileVersion: '6.0'
+
+dependencies:
+  chrome-types:
+    specifier: ^0.1.163
+    version: 0.1.163
+
+packages:
+
+  /chrome-types@0.1.163:
+    resolution: {integrity: sha512-GSy1Nx2Q0laTJq84sfEaeUpJPVEz5hJveRsYQ7E1R/0eXmZgIGO+KxPg7CYzMB6zwwaXMoW9E+BO3slBfchHwg==}
+    dev: false
