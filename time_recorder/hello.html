@@ -4,11 +4,47 @@
   </header>
   <body class="body">
     <h1>Time Recorder</h1>
-    Title<input type="text" id="title" value="" /><br />
-    Start<input type="datetime-local" id="datetime" value="" /><br />
-    <button type="button" id="add-button">Add</button>
-    <div id="datetime-list"></div>
-    <button type="button" id="clear-button">Clear</button>
+
+    <div>
+      <h2>Time List</h2>
+      <div id="time-list"></div>
+      <button type="button" id="clear-button">Clear</button>
+    </div>
+
+    <div id="edit-form">
+      <h2>Time Edit</h2>
+      <input type="text" id="edit-index" value="" hidden />
+      Title<input type="text" id="edit-title" value="" /><br />
+      StartAt<input type="time" id="edit-start-at" value="" /><br />
+      EndAt<input type="time" id="edit-end-at" value="" /><br />
+      <button type="button" id="edit-done-button">Edit Done</button>
+    </div>
+
+    <div id="start-form">
+      <h2>Start Form</h2>
+      Title<input type="text" id="title" value="" /><br />
+      <button type="button" id="start-button">Start</button>
+    </div>
+
+    <div id="end-form">
+      <h2>End Form</h2>
+      <table>
+        <tr>
+          <td>Title</td>
+          <td id="tmp-title"></td>
+        </tr>
+        <tr>
+          <td>StartAt</td>
+          <td id="tmp-start-at"></td>
+        </tr>
+      </table>
+      <button type="button" id="end-button">End</button>
+    </div>
+
+    <div>
+      <h2>CSV</h2>
+      <button type="button" id="csv-button">CSV</button>
+    </div>
   </body>
   <script src="setup.js"></script>
 </html>
