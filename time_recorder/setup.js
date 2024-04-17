@@ -156,11 +156,22 @@ async function refreshDom() {
   }
 
   const timeListLiList = (data.timeList ?? []).map((time, i) => {
-    return `<li>${time.title}: ${time.startAt}, ${time.endAt}
-      <button type="button" id="edit-button-${i}">Edit</button>
-    </li>`;
+    return `<tr>
+      <td>${time.title}</td>
+      <td>${time.startAt}</td>
+      <td>${time.endAt}</td>
+      <td><button type="button" id="edit-button-${i}">Edit</button></td>
+    </tr>`;
   });
-  const timeListUl = `<ul>${timeListLiList.join("")}</ul>`;
+  const timeListUl = `<table>
+    <tr>
+      <th>Title</th>
+      <th>StartAt</th>
+      <th>EndAt</th>
+      <th>Action</th>
+    </tr>
+    ${timeListLiList.join("")}
+  </table>`;
 
   document.getElementById("time-list").innerHTML = timeListUl;
   (data.timeList ?? []).forEach((time, i) => {
