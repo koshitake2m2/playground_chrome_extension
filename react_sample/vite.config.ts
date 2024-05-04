@@ -15,6 +15,7 @@ export default defineConfig({
         content_scripts: join(__dirname, "src/content_scripts/index.ts"),
         content_scripts_main: join(__dirname, "src/content_scripts/main.tsx"),
         popup: join(__dirname, "src/popup/popup.html"),
+        options: join(__dirname, "src/options/options.html"),
       },
       output: {
         entryFileNames: "[name].js",
